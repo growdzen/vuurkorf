@@ -34,7 +34,6 @@ export default function Configurator() {
       setStep(1)
       setProcessing(true)
       await processJob(job.id)
-      // Poll for completion
       let attempts = 0
       const poll = setInterval(async () => {
         attempts++
@@ -145,22 +144,22 @@ export default function Configurator() {
               >{t}</button>
             ))}
           </div>
-          <button onClick={() => setStep(3.5 as unknown as number)} className="w-full py-3 rounded-lg font-semibold text-white" style={{backgroundColor: '#E85D04'}} onClick={() => setStep(4)}>
+          <button onClick={() => setStep(4)} className="w-full py-3 rounded-lg font-semibold text-white" style={{backgroundColor: '#E85D04'}}>
             Doorgaan naar bestellen
           </button>
         </div>
       )}
 
-      {/* Step 3.5 -> 4: Order form */}
+      {/* Step 4: Order form */}
       {step === 4 && !orderId && (
         <div>
           <h2 className="text-2xl font-bold mb-6">Jouw gegevens</h2>
-          {['name','email','address'].map((field) => (
+          {(['name','email','address'] as const).map((field) => (
             <div key={field} className="mb-4">
               <label className="block text-sm text-gray-400 mb-1 capitalize">{field}</label>
               <input
                 type={field === 'email' ? 'email' : 'text'}
-                value={form[field as keyof typeof form]}
+                value={form[field]}
                 onChange={(e) => setForm({...form, [field]: e.target.value})}
                 className="w-full rounded-lg px-4 py-3 bg-gray-800 border border-gray-700 text-white focus:outline-none focus:border-orange-500"
               />
